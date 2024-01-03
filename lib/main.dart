@@ -10,14 +10,10 @@ import 'src/navigation_controls.dart';
 import 'src/web_view_stack.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppBarTitle(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(useMaterial3: true),
-        home: const WebViewApp(),
-      ),
+  runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(useMaterial3: true),
+      home: const WebViewApp(),
     ),
   );
 }
@@ -45,14 +41,12 @@ class _WebViewAppState extends State<WebViewApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Consumer<AppBarTitle>(
-          builder: (context, title, child) => Text(
-                '${title.value}')),
+        title: Text('${title}'),
             actions: [
               NavigationControls(controller: controller),
         ],
       ),
-      body: WebViewStack(controller: controller),
+      body: WebViewStack(controller: controller, state: this),
     );
   }
 }

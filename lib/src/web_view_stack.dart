@@ -7,13 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewStack extends StatefulWidget {
-  WebViewStack({required this.controller, super.key});
+  WebViewStack({required this.controller, required this.state, super.key});
 
   final WebViewController controller;
+  final State state;
 
   @override
   State<WebViewStack> createState() => _WebViewStackState();
 }
+
+String title = 'Oglaf';
 
 class _WebViewStackState extends State<WebViewStack> {
   var loadingPercentage = 0;
@@ -39,8 +42,9 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
             final value = widget.controller.getTitle();
-            var title = context.read<AppBarTitle>();
-            value.then((v) => title.set(v ?? 'Oglaf'));
+            value.then((v) => widget.state.setState(() {
+                    title = v ?? 'Oglaf';
+                }));
             widget.controller.runJavaScript('''
               let image = document.getElementById("strip");
               if (image != null)
@@ -77,14 +81,5 @@ class _WebViewStackState extends State<WebViewStack> {
           ),
       ],
     );
-  }
-}
-
-class AppBarTitle with ChangeNotifier {
-  String value = 'Oglaf';
-
-  void set(String value) {
-    this.value = value;
-    notifyListeners();
   }
 }
