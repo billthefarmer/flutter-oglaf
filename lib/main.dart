@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'src/navigation_controls.dart';
@@ -39,14 +39,24 @@ class _WebViewAppState extends State<WebViewApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${title}'),
-            actions: [
-              NavigationControls(controller: controller),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) async {
+        if (await controller.canGoBack()) {
+          await controller.goBack();
+        } else {
+          await SystemNavigator.pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('${title}'),
+          actions: [
+            NavigationControls(controller: controller),
+          ],
+        ),
+        body: WebViewStack(controller: controller, state: this),
       ),
-      body: WebViewStack(controller: controller, state: this),
     );
   }
 }
