@@ -4,22 +4,30 @@
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'title.dart';
 
-class NavigationControls extends StatelessWidget {
+class NavigationControls extends StatefulWidget {
   const NavigationControls({required this.controller, super.key});
 
   final WebViewController controller;
 
   @override
+  State<NavigationControls> createState() => _NavigationControlsState();
+}
+
+class _NavigationControlsState extends State<NavigationControls> {
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
+        if (canGoBack)
         IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);
-            if (await controller.canGoBack()) {
-              await controller.goBack();
+            if (await widget.controller.canGoBack()) {
+              await widget.controller.goBack();
             } else {
               messenger.showSnackBar(
                 const SnackBar(content: Text('No back history item')),
@@ -28,12 +36,13 @@ class NavigationControls extends StatelessWidget {
             }
           },
         ),
+        if (canGoForward)
         IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () async {
             final messenger = ScaffoldMessenger.of(context);
-            if (await controller.canGoForward()) {
-              await controller.goForward();
+            if (await widget.controller.canGoForward()) {
+              await widget.controller.goForward();
             } else {
               messenger.showSnackBar(
                 const SnackBar(content: Text('No forward history item')),
@@ -45,10 +54,11 @@ class NavigationControls extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.replay),
           onPressed: () {
-            controller.reload();
+            widget.controller.reload();
           },
         ),
       ],
     );
   }
 }
+

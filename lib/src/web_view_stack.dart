@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'title.dart';
 
 class WebViewStack extends StatefulWidget {
   WebViewStack({required this.controller, required this.state, super.key});
@@ -15,9 +16,8 @@ class WebViewStack extends StatefulWidget {
   State<WebViewStack> createState() => _WebViewStackState();
 }
 
-String title = 'Oglaf';
-
 class _WebViewStackState extends State<WebViewStack> {
+
   var loadingPercentage = 0;
 
   @override
@@ -38,18 +38,28 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onPageFinished: (url) {
             setState(() {
-              loadingPercentage = 100;
+                loadingPercentage = 100;
             });
             final value = widget.controller.getTitle();
             value.then((v) => widget.state.setState(() {
-                    title = v ?? 'Oglaf';
-                }));
+                  title = v ?? 'Oglaf';
+            }));
+
+            final back = widget.controller.canGoBack();
+            back.then((v) => widget.state.setState(() {
+                  canGoBack = v;
+            }));
+
+            final forward = widget.controller.canGoForward();
+            forward.then((v) => widget.state.setState(() {
+                  canGoForward = v;
+            }));
             widget.controller.runJavaScript('''
               let image = document.getElementById("strip");
               if (image != null)
-                  image.addEventListener("click", (event) => {
-                      SnackBar.postMessage(image.getAttribute("title"));
-              });
+              image.addEventListener("click", (event) => {
+              SnackBar.postMessage(image.getAttribute("title"));
+          });
               ''');
           },
           onNavigationRequest: (navigation) {
@@ -62,10 +72,12 @@ class _WebViewStackState extends State<WebViewStack> {
         'SnackBar',
         onMessageReceived: (message) {
           ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message.message)));
+          .showSnackBar(SnackBar(content: Text(message.message,
+                style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.black));
         },
       );
-  }
+    }
 
   @override
   Widget build(BuildContext context) {

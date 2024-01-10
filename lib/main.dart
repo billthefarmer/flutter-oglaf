@@ -8,6 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'src/navigation_controls.dart';
 import 'src/web_view_stack.dart';
+import 'src/title.dart';
 
 void main() {
   runApp(MaterialApp(

@@ -9,7 +9,7 @@
   <application
       android:label="Oglaf"
       android:name="${applicationName}"
-      android:icon="@mipmap/ic_launcher">
+      android:icon="@mipmap/oglaf">
     <activity
         android:name=".MainActivity"
         android:exported="true"
