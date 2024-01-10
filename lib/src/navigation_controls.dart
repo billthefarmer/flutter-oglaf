@@ -6,16 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'title.dart';
 
-class NavigationControls extends StatefulWidget {
+class NavigationControls extends StatelessWidget {
   const NavigationControls({required this.controller, super.key});
 
   final WebViewController controller;
-
-  @override
-  State<NavigationControls> createState() => _NavigationControlsState();
-}
-
-class _NavigationControlsState extends State<NavigationControls> {
 
   @override
   Widget build(BuildContext context) {
@@ -25,36 +19,22 @@ class _NavigationControlsState extends State<NavigationControls> {
         IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () async {
-            final messenger = ScaffoldMessenger.of(context);
-            if (await widget.controller.canGoBack()) {
-              await widget.controller.goBack();
-            } else {
-              messenger.showSnackBar(
-                const SnackBar(content: Text('No back history item')),
-              );
-              return;
-            }
+            if (await controller.canGoBack())
+              await controller.goBack();
           },
         ),
         if (canGoForward)
         IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () async {
-            final messenger = ScaffoldMessenger.of(context);
-            if (await widget.controller.canGoForward()) {
-              await widget.controller.goForward();
-            } else {
-              messenger.showSnackBar(
-                const SnackBar(content: Text('No forward history item')),
-              );
-              return;
-            }
+            if (await controller.canGoForward())
+              await controller.goForward();
           },
         ),
         IconButton(
           icon: const Icon(Icons.replay),
           onPressed: () {
-            widget.controller.reload();
+            controller.reload();
           },
         ),
       ],
