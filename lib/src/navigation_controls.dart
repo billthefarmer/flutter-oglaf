@@ -15,21 +15,17 @@ class NavigationControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        if (canGoBack)
         IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () async {
-            if (await controller.canGoBack())
-              await controller.goBack();
-          },
+          onPressed: canGoBack? () async {
+            await controller.goBack();
+          }: null,
         ),
-        if (canGoForward)
         IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: () async {
-            if (await controller.canGoForward())
-              await controller.goForward();
-          },
+          onPressed: canGoForward? () async {
+            await controller.goForward();
+          }: null,
         ),
         IconButton(
           icon: const Icon(Icons.replay),
@@ -41,4 +37,3 @@ class NavigationControls extends StatelessWidget {
     );
   }
 }
-
