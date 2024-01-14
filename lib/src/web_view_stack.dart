@@ -74,7 +74,7 @@ class _WebViewStackState extends State<WebViewStack> {
         onMessageReceived: (message) {
           ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message.message,
-                style: TextStyle(color: Colors.white)),
+                style: const TextStyle(color: Colors.white)),
               backgroundColor: Colors.black));
         },
       );
