@@ -51,7 +51,7 @@ class _WebViewAppState extends State<WebViewApp> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('${title}'),
+          title: Text(title),
           actions: [
             NavigationControls(controller: controller),
           ],
