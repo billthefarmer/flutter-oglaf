@@ -8,7 +8,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'src/navigation_controls.dart';
 import 'src/web_view_stack.dart';
-import 'src/title.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -23,11 +22,16 @@ class WebViewApp extends StatefulWidget {
   const WebViewApp({super.key});
 
   @override
-  State<WebViewApp> createState() => _WebViewAppState();
+  State<WebViewApp> createState() => WebViewAppState();
 }
 
-class _WebViewAppState extends State<WebViewApp> {
+class WebViewAppState extends State<WebViewApp> {
   late final WebViewController controller;
+
+  String title = 'Oglaf';
+
+  var canGoBack = true;
+  var canGoForward = true;
 
   @override
   void initState() {
@@ -53,7 +57,7 @@ class _WebViewAppState extends State<WebViewApp> {
         appBar: AppBar(
           title: Text(title),
           actions: [
-            NavigationControls(controller: controller),
+            NavigationControls(controller: controller, state: this),
           ],
         ),
         body: WebViewStack(controller: controller, state: this),

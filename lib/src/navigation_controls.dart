@@ -4,12 +4,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'title.dart';
+import '../main.dart';
 
 class NavigationControls extends StatelessWidget {
-  const NavigationControls({required this.controller, super.key});
+  const NavigationControls({required this.controller,
+      required this.state, super.key});
 
   final WebViewController controller;
+  final WebViewAppState state;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +19,13 @@ class NavigationControls extends StatelessWidget {
       children: <Widget>[
         IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: canGoBack? () async {
+          onPressed: state.canGoBack? () async {
             await controller.goBack();
           }: null,
         ),
         IconButton(
           icon: const Icon(Icons.arrow_forward_ios),
-          onPressed: canGoForward? () async {
+          onPressed: state.canGoForward? () async {
             await controller.goForward();
           }: null,
         ),

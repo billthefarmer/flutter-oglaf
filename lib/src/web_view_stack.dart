@@ -4,14 +4,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'title.dart';
+import '../main.dart';
 
 class WebViewStack extends StatefulWidget {
   const WebViewStack({required this.controller,
       required this.state, super.key});
 
   final WebViewController controller;
-  final State state;
+  final WebViewAppState state;
 
   @override
   State<WebViewStack> createState() => _WebViewStackState();
@@ -43,17 +43,17 @@ class _WebViewStackState extends State<WebViewStack> {
             });
             final value = widget.controller.getTitle();
             value.then((v) => widget.state.setState(() {
-                  title = v ?? 'Oglaf';
+                  widget.state.title = v ?? 'Oglaf';
             }));
 
             final back = widget.controller.canGoBack();
             back.then((v) => widget.state.setState(() {
-                  canGoBack = v;
+                  widget.state.canGoBack = v;
             }));
 
             final forward = widget.controller.canGoForward();
             forward.then((v) => widget.state.setState(() {
-                  canGoForward = v;
+                  widget.state.canGoForward = v;
             }));
             widget.controller.runJavaScript('''
               let image = document.getElementById("strip");
