@@ -10,7 +10,8 @@ import 'src/navigation_controls.dart';
 import 'src/web_view_stack.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(useMaterial3: true),
       home: const WebViewApp(),
@@ -37,9 +38,9 @@ class WebViewAppState extends State<WebViewApp> {
   void initState() {
     super.initState();
     controller = WebViewController()
-    ..loadRequest(
-      Uri.parse('https://oglaf.com'),
-    );
+      ..loadRequest(
+        Uri.parse('https://oglaf.com'),
+      );
   }
 
   @override

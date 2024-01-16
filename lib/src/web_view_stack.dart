@@ -7,8 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../main.dart';
 
 class WebViewStack extends StatefulWidget {
-  const WebViewStack({required this.controller,
-      required this.state, super.key});
+  const WebViewStack(
+      {required this.controller, required this.state, super.key});
 
   final WebViewController controller;
   final WebViewAppState state;
@@ -18,7 +18,6 @@ class WebViewStack extends StatefulWidget {
 }
 
 class _WebViewStackState extends State<WebViewStack> {
-
   var loadingPercentage = 0;
 
   @override
@@ -39,22 +38,22 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onPageFinished: (url) {
             setState(() {
-                loadingPercentage = 100;
+              loadingPercentage = 100;
             });
             final value = widget.controller.getTitle();
             value.then((v) => widget.state.setState(() {
                   widget.state.title = v ?? 'Oglaf';
-            }));
+                }));
 
             final back = widget.controller.canGoBack();
             back.then((v) => widget.state.setState(() {
                   widget.state.canGoBack = v;
-            }));
+                }));
 
             final forward = widget.controller.canGoForward();
             forward.then((v) => widget.state.setState(() {
                   widget.state.canGoForward = v;
-            }));
+                }));
             widget.controller.runJavaScript('''
               let image = document.getElementById("strip");
               if (image != null)
@@ -72,13 +71,13 @@ class _WebViewStackState extends State<WebViewStack> {
       ..addJavaScriptChannel(
         'SnackBar',
         onMessageReceived: (message) {
-          ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message.message,
-                style: const TextStyle(color: Colors.white)),
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(message.message,
+                  style: const TextStyle(color: Colors.white)),
               backgroundColor: Colors.black));
         },
       );
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
