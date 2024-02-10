@@ -1,0 +1,33 @@
+name: "build"
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '*'
+  pull_request:
+
+jobs:
+  build-android:
+    name: "Build Android App"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Java 17 Environment
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+      - name: Setup Flutter Environment
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Build Android Application
+        run: flutter build apk
+      - name: Archive Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk-build
+          path: build/app/outputs/apk/release
+          if-no-files-found: error
