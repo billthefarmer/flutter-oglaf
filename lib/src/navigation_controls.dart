@@ -34,7 +34,7 @@ class NavigationControls extends StatelessWidget {
               : null,
         ),
         IconButton(
-          icon: const Icon(Icons.replay),
+          icon: const Icon(Icons.refresh),
           onPressed: () {
             controller.reload();
           },
